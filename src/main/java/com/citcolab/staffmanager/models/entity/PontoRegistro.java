@@ -1,14 +1,40 @@
 package com.citcolab.staffmanager.models.entity;
 
+import java.sql.Time;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import lombok.Data;
 
 @Data
+@Entity
+@Table( name = "pontoregistro" , schema = "pontoregistro")
 public class PontoRegistro {
 	
-	private String date; 
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(name = "data_Ponto", nullable = false)
+	private Date dataPonto; 
 	
-	private String local;
+	@Column(name = "local_Ponto", nullable = false)
+	private String localPonto;
 	
-	private String hora;
+	@Column(name = "hora_Ponto", nullable = false)
+	private Time horaPonto;
+	
+	@OneToOne
+	@JoinColumn(name = "id_usuario", nullable = false)
+	private Usuario usuario;
 	
 }
