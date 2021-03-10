@@ -5,14 +5,17 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.citcolab.staffmanager.exception.validarEmailException;
+import com.citcolab.staffmanager.exception.autenticacaoException;
 import com.citcolab.staffmanager.exception.validarEmployerIdException;
+import com.citcolab.staffmanager.exception.impl.validarEmailExceptionImp;
 import com.citcolab.staffmanager.models.entity.Usuario;
 import com.citcolab.staffmanager.models.repository.UsuarioRepository;
 import com.citcolab.staffmanager.service.UsuarioService;
@@ -27,14 +30,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	@Autowired
 	private GerenciadorRepositoryService gerenciadorRepositoryService;
-
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private validarEmailExceptionImp validarEmailExceptionImp;
+	
+
 	@PostMapping("/cadastrar")
 	public ResponseEntity cadastrarUsuario(@RequestBody Usuario usuario) {
 		
-		if(usuarioRepository.existsByEmail(usuario.getEmail())){
-			throw new validarEmailException(usuario.getEmail(),"save");
-		}
+	    validarEmailExceptionImp.validarEmail(usuario.getEmail(), "save");
 		
 		Random random = new Random();
 		Long numero = (long) random.nextInt(1000);
@@ -45,6 +52,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		usuario.setEmployerId(numero);
 		
+		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		
 		gerenciadorRepositoryService.persistirUsuario(usuario);
 		
 		return ResponseEntity.ok(usuario);
@@ -53,6 +62,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	@PostMapping("/atualizar")
 	public ResponseEntity atualizarUsuario(@RequestBody Usuario usuario){
+		
+		validarEmailExceptionImp.validarEmail(usuario.getEmail(), "find");
 		
 		validarEmail(usuario.getEmail())
 		.map(usuarioExistente ->{
@@ -64,7 +75,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			usuarioExistente.setSenha(usuario.getSenha());
 			gerenciadorRepositoryService.persistirUsuario(usuarioExistente);
 			return usuarioExistente;
-		}).orElseThrow( () -> new validarEmailException(usuario.getEmail(),"find"));
+		}).orElseThrow();
 		
 		return ResponseEntity.ok(usuario);
 	}
@@ -72,14 +83,32 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@DeleteMapping("/deletar")
 	public ResponseEntity deletarUsuario(@RequestBody Usuario usuario){
 		
+		validarEmailExceptionImp.validarEmail(usuario.getEmail(), "find");
+		
 		validarEmail(usuario.getEmail())
 		.map(usuarioExistente ->{
 			gerenciadorRepositoryService.deletarUsuario(usuarioExistente);
 			return usuarioExistente;
-		}).orElseThrow( () -> new validarEmailException(usuario.getEmail(),"find"));
+		}).orElseThrow();
 		
 		return ResponseEntity.noContent().build();
 	}
+	
+	public UserDetails autenticar(Usuario usuario) {
+		
+		validarEmailExceptionImp.validarEmail(usuario.getEmail(), "find");
+		
+		UserDetails userDetails = gerenciadorRepositoryService.autenticar(usuario);
+		
+		boolean autenticacaoSenha = passwordEncoder.matches(usuario.getSenha(), userDetails.getPassword());
+		
+		if(autenticacaoSenha) {
+			return userDetails;
+		}else {
+			throw new autenticacaoException();
+		}	
+	}
+	
 	
 	@Override
 	public Optional<Usuario> obterPorId(Long id) {
@@ -90,9 +119,5 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Optional<Usuario> validarEmail(String Email) {
 		return usuarioRepository.findByEmail(Email);
 	}
-	
-	
-	
-	
 
 }
