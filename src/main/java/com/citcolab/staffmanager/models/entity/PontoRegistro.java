@@ -1,7 +1,7 @@
 package com.citcolab.staffmanager.models.entity;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,13 +25,13 @@ public class PontoRegistro {
 	private Long id;
 
 	@Column(name = "data_Ponto", nullable = false)
-	private Date dataPonto; 
+	private String dataPonto; 
 	
 	@Column(name = "local_Ponto", nullable = false)
 	private String localPonto;
 	
 	@Column(name = "hora_Ponto", nullable = false)
-	private Time horaPonto;
+	private String horaPonto;
 	
 	@OneToOne
 	@JoinColumn(name = "id_usuario", nullable = false)

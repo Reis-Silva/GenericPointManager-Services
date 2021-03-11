@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.citcolab.staffmanager.exception.autenticacaoException;
+import com.citcolab.staffmanager.exception.validarAutenticacaoException;
 import com.citcolab.staffmanager.exception.validarEmployerIdException;
 import com.citcolab.staffmanager.exception.impl.validarEmailExceptionImp;
 import com.citcolab.staffmanager.models.entity.Usuario;
@@ -94,6 +94,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PostMapping("/autenticar")
 	public UserDetails autenticar(Usuario usuario) {
 		
 		validarEmailExceptionImp.validarEmail(usuario.getEmail(), "find");
@@ -105,7 +106,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		if(autenticacaoSenha) {
 			return userDetails;
 		}else {
-			throw new autenticacaoException();
+			throw new validarAutenticacaoException();
 		}	
 	}
 	
