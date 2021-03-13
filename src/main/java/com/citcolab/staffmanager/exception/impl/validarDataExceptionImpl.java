@@ -2,8 +2,11 @@ package com.citcolab.staffmanager.exception.impl;
 
 import java.util.Calendar;
 
+import org.springframework.stereotype.Service;
+
 import com.citcolab.staffmanager.exception.validarDataException;
 
+@Service
 public class validarDataExceptionImpl{
 	
 	public void validarDataHora(Calendar data) {

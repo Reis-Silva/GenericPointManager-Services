@@ -7,7 +7,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.citcolab.staffmanager.models.entity.PontoRegistro;
 import com.citcolab.staffmanager.models.entity.Usuario;
+import com.citcolab.staffmanager.models.repository.PontoRegistroRepository;
 import com.citcolab.staffmanager.models.repository.UsuarioRepository;
 import com.citcolab.staffmanager.ws.GerenciadorRepositoryService;
 
@@ -15,14 +17,17 @@ import com.citcolab.staffmanager.ws.GerenciadorRepositoryService;
 public class GerenciadorRepositoryServiceImpl implements GerenciadorRepositoryService{
 
 	@Autowired
-	public UsuarioRepository usuarioRepository;
+	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private PontoRegistroRepository pontoRegistroRepository;
 	
 	@Override
 	@Transactional
 	public void persistirUsuario(Usuario usuario) {
 		usuarioRepository.save(usuario);
 	}
-
+	
 	@Override
 	@Transactional
 	public void deletarUsuario(Usuario usuario) {
@@ -38,6 +43,12 @@ public class GerenciadorRepositoryServiceImpl implements GerenciadorRepositorySe
 				.username(user.getEmail())
 				.password(user.getSenha())
 				.build();
+	}
+	
+	@Override
+	@Transactional
+	public void persistirRegistroRepository(PontoRegistro pontoRegistro) {
+		pontoRegistroRepository.save(pontoRegistro);
 	}
 
 }

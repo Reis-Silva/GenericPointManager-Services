@@ -1,8 +1,5 @@
 package com.citcolab.staffmanager.models.entity;
 
-import java.sql.Time;
-import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
