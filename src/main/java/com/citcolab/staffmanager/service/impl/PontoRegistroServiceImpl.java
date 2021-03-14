@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -69,21 +68,13 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 	}
 	
 	@GetMapping("/procurar/{id}")
-	public ResponseEntity<Optional<PontoRegistro>> ProcurarPonto(@PathVariable Long id) {
+	public ResponseEntity<List<PontoRegistro>> ProcurarPonto(@PathVariable("id") Long id) {
 		
-		List<PontoRegistro> pontoRegistro = new ArrayList<>();
+		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
 		
-		Optional<PontoRegistro> pontoRegistro2 = Optional.empty();		
+		pontoRegistros.addAll(pontoRegistroRepository.buscarPorUsuarioId(id));
 		
-		pontoRegistro2 = pontoRegistroRepository.findById(id);
-		
-		return ResponseEntity.ok(pontoRegistro2);
+		return ResponseEntity.ok(pontoRegistros);
 	}
-
-	@Override
-	public Optional<PontoRegistro> obterUsuarioGetId(Long id) {
-		return pontoRegistroRepository.findById(id);
-	}
-	
 	
 }

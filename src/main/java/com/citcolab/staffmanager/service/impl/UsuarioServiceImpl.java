@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,7 +66,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		validarEmailExceptionImp.validarEmail(usuario.getEmail(), "find");
 		
-		validarEmail(usuario.getEmail())
+		procurarPorEmail(usuario.getEmail())
 		.map(usuarioExistente ->{
 			usuarioExistente.setEmail(usuario.getEmail());
 			usuarioExistente.setLocalOffice(usuario.getLocalOffice());
@@ -80,12 +81,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return ResponseEntity.ok(usuario);
 	}
 	
-	@DeleteMapping("/deletar")
-	public ResponseEntity deletarUsuario(@RequestBody Usuario usuario){
+	@DeleteMapping("/deletar/{email}")
+	public ResponseEntity deletarUsuario(@PathVariable("email") String email){
 		
-		validarEmailExceptionImp.validarEmail(usuario.getEmail(), "find");
+		validarEmailExceptionImp.validarEmail(email, "find");
 		
-		validarEmail(usuario.getEmail())
+		procurarPorEmail(email)
 		.map(usuarioExistente ->{
 			gerenciadorRepositoryService.deletarUsuario(usuarioExistente);
 			return usuarioExistente;
@@ -109,15 +110,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new validarAutenticacaoException();
 		}	
 	}
-	
-	
-	@Override
-	public Optional<Usuario> obterPorId(Long id) {
-		return usuarioRepository.findById(id);
-	}
 
 	@Override
-	public Optional<Usuario> validarEmail(String Email) {
+	public Optional<Usuario> procurarPorEmail(String Email) {
 		return usuarioRepository.findByEmail(Email);
 	}
 

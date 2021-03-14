@@ -10,7 +10,6 @@ public interface UsuarioService {
 	
 	ResponseEntity<Usuario> cadastrarUsuario(Usuario usuario);
 	
-	Optional<Usuario> obterPorId(Long id);
-	
-	Optional<Usuario> validarEmail(String Email);
+	Optional<Usuario> procurarPorEmail(String Email);
+
 }
