@@ -11,4 +11,7 @@ public interface PontoRegistroRepository extends JpaRepository<PontoRegistro, Lo
 	 
 	 @Query(value = "SELECT * FROM pontoregistro.pontoregistro where id_usuario = ?", nativeQuery = true)
 	 List<PontoRegistro> buscarPorUsuarioId(Long id);
+	 
+	 @Query(value = "SELECT * FROM pontoregistro.pontoregistro where id_usuario = ? and id = ?", nativeQuery = true)
+	 PontoRegistro buscarPorUsuarioIdAndPontoRegistroId(Long idUsuario, Long idPontoRegistro);
 }

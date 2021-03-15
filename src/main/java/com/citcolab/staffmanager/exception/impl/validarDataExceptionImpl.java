@@ -17,4 +17,8 @@ public class validarDataExceptionImpl{
 			throw new validarDataException("Dias não uteis");
 		}
 	}
+	
+	public void validarPontoDataHora() {
+		throw new validarDataException("Ponto de Registro não encontrado");
+	}
 }
