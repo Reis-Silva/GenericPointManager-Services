@@ -1,5 +1,6 @@
 package com.citcolab.staffmanager.models.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,12 @@ public interface PontoRegistroRepository extends JpaRepository<PontoRegistro, Lo
 	 @Query(value = "SELECT * FROM pontoregistro.pontoregistro where id_usuario = ?", nativeQuery = true)
 	 List<PontoRegistro> buscarPorUsuarioId(Long id);
 	 
+	 @Query(value = "SELECT * FROM pontoregistro.pontoregistro where id_usuario = ? and Date(data_ponto) between ? and ?", nativeQuery = true)
+	 List<PontoRegistro> buscarPorUsuarioIdEspecifico(Long id, Date datainicial, Date datafinal);
+	 
 	 @Query(value = "SELECT * FROM pontoregistro.pontoregistro where id_usuario = ? and id = ?", nativeQuery = true)
 	 PontoRegistro buscarPorUsuarioIdAndPontoRegistroId(Long idUsuario, Long idPontoRegistro);
+	 
+	 @Query(value = "SELECT * FROM pontoregistro.pontoregistro where data_ponto = ?", nativeQuery = true)
+	 List<PontoRegistro> buscarPorDataHoraPonto(Date dataHoraPonto);
 }

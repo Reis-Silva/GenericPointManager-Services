@@ -2,6 +2,7 @@ package com.citcolab.staffmanager.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +39,27 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 	private GerenciadorRepositoryService gerenciadorRepositoryService;
 	
 	@GetMapping("/registrar/{id}")
-	public ResponseEntity registrarPonto(@PathVariable Long id){
+	public ResponseEntity registrarPonto(@PathVariable Long id) {
 		
 		if(!usuarioRepository.existsById(id)) {
 			throw new RuntimeException("Usuario não existente");
 		}
 		
-		PontoRegistro pontoRegistro = new PontoRegistro();
-		
 		Calendar data = Calendar.getInstance();
 		
 		validarDataExceptionImpl.validarDataHora(data);
+		
+		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
+		
+		pontoRegistros.addAll(pontoRegistroRepository.buscarPorDataHoraPonto(data.getTime()));
+		
+		Date horaPontoRegistro = pontoRegistros.get(pontoRegistros.size()-1).getHoraPonto();
+		
+		validarDataExceptionImpl.validarCronometro(data, horaPontoRegistro);
+		
+		validarDataExceptionImpl.validarPontoDataHora(new PontoRegistro(), pontoRegistros, pontoRegistros.size());
+
+		PontoRegistro pontoRegistro = new PontoRegistro();
 		
 		pontoRegistro.setDataPonto(data.getTime());
 		pontoRegistro.setHoraPonto(data.getTime());
@@ -71,6 +82,18 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		return ResponseEntity.ok(pontoRegistros);
 	}
 	
+	@GetMapping("/procurarEspecifico/{id}/{dataInicial}&{dataFinal}")
+	public ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(@PathVariable("id") Long id,@PathVariable Date dataInicial, @PathVariable Date dataFinal) {
+		
+		validarDataExceptionImpl.filtroData(dataInicial, dataFinal);
+		
+		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
+		
+		pontoRegistros.addAll(pontoRegistroRepository.buscarPorUsuarioIdEspecifico(id, dataInicial, dataFinal));
+		
+		return ResponseEntity.ok(pontoRegistros);
+	}
+	
 	@PostMapping("/atualizar/{idUsuario}")
 	public ResponseEntity atualizarPonto(@PathVariable("idUsuario") Long idUsuario, @RequestBody PontoRegistro pontoRegistro) {
 		
@@ -79,9 +102,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		pontoRegistroAtualizar = 
 				pontoRegistroRepository.buscarPorUsuarioIdAndPontoRegistroId(idUsuario, pontoRegistro.getId());
 		
-		if(pontoRegistroAtualizar == null ){
-			validarDataExceptionImpl.validarPontoDataHora();
-		}
+		validarDataExceptionImpl.validarPontoDataHora(pontoRegistroAtualizar, null, null);
 		
 		pontoRegistroAtualizar.setDataPonto(pontoRegistro.getDataPonto());
 		pontoRegistroAtualizar.setHoraPonto(pontoRegistro.getHoraPonto());
