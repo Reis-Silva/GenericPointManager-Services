@@ -1,1 +1,1 @@
-# CITColabStaffManager-Services
+# GenericPointManager-Services
