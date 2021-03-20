@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.citcolab.staffmanager.exception.validarEmailException;
 import com.citcolab.staffmanager.models.entity.PontoRegistro;
 import com.citcolab.staffmanager.models.entity.Usuario;
 import com.citcolab.staffmanager.models.repository.PontoRegistroRepository;
@@ -36,7 +37,8 @@ public class GerenciadorRepositoryServiceImpl implements GerenciadorRepositorySe
 
 	@Override
 	public UserDetails autenticar(Usuario usuario) {
-		Usuario user = usuarioRepository.findByEmail(usuario.getEmail()).orElseThrow();
+		Usuario user = usuarioRepository.findByEmail(
+							usuario.getEmail()).orElseThrow(() -> new validarEmailException("Email não encontrado"));
 		
 		return User
 				.builder()

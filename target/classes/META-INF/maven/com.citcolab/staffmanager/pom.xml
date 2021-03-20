@@ -11,8 +11,8 @@
 	<groupId>com.citcolab</groupId>
 	<artifactId>staffmanager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>staffmanager</name>
-	<description>CIT Colab Staff Manager</description>
+	<name>GenericPointManager-Services</name>
+	<description>GenericPointManager</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
