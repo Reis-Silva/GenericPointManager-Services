@@ -1,10 +1,10 @@
 package com.generic.pointmanager.exception;
 
-public class validarDataException extends RuntimeException{
+public class ValidarDataException extends RuntimeException{
 
 	private static final long serialVersionUID = 3054527412432131539L;
 
-	public validarDataException(String msg) {
+	public ValidarDataException(String msg) {
 		super(msg);
 	}
 }
