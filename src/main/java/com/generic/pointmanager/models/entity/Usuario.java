@@ -1,7 +1,11 @@
 package com.generic.pointmanager.models.entity;
 
+import java.sql.Blob;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,11 +13,14 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.generic.pointmanager.enumeration.TipoSetorEnum;
+import com.generic.pointmanager.enumeration.TipoSexoEnum;
+
 import lombok.Data;
 
 @Data
 @Entity
-@Table( name = "usuario" , schema = "pontoregistro")
+@Table( name = "usuario" , schema = "usuario")
 public class Usuario {
 	
 	@Id
@@ -30,6 +37,10 @@ public class Usuario {
 	
 	@Column(name = "nome", nullable = false)
     private String nome;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "sexo", nullable = false)
+	private TipoSexoEnum sexo;
     
 	@Column(name = "email", nullable = false)
     private String email;
@@ -37,13 +48,17 @@ public class Usuario {
 	@Column(name = "senha", nullable = false)
     private String senha;
     
-	@Column(name = "office", nullable = false)
+	@Column(name = "office")
     private String office;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "setor", nullable = false)
+	private TipoSetorEnum setor;
     
-	@Column(name = "local_office", nullable = false)
+	@Column(name = "local_office")
     private String localOffice;
     
 	@Column(name = "photo_profile_uri")
-    private String photoProfileUri;
+    private Blob photoProfileUri;
     
 }
