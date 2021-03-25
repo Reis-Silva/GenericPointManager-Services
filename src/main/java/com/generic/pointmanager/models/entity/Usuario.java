@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.generic.pointmanager.enumeration.TipoNivelAcessoEnum;
 import com.generic.pointmanager.enumeration.TipoSetorEnum;
 import com.generic.pointmanager.enumeration.TipoSexoEnum;
 
@@ -48,15 +49,19 @@ public class Usuario {
 	@Column(name = "senha", nullable = false)
     private String senha;
     
-	@Column(name = "office")
+	@Column(name = "office", nullable = false)
     private String office;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "setor", nullable = false)
 	private TipoSetorEnum setor;
     
-	@Column(name = "local_office")
+	@Column(name = "local_office", nullable = false)
     private String localOffice;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tipo_nivel_acesso", nullable = false)
+	private TipoNivelAcessoEnum tipoNivelAcessoEnum;
     
 	@Column(name = "photo_profile_uri")
     private Blob photoProfileUri;
