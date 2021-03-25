@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.generic.pointmanager.enumeration.StatusAtualizacaoPonto;
@@ -18,7 +18,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "atualizar_ponto_registro", schema = "registro")
+@Table(name = "atualizar_ponto_registro", schema = "administrativo")
 public class AtualizarPontoRegistro{
 	
 	@Id
@@ -37,7 +37,7 @@ public class AtualizarPontoRegistro{
 	@Column(name = "atualizacao_ponto", nullable = false)
 	private StatusAtualizacaoPonto statusAtualizacaoPonto;
 	
-	@ManyToMany
+	@OneToOne
 	@JoinColumn(name = "id_ponto_registro", nullable = false)
 	private PontoRegistro idPontoRegistro;
 

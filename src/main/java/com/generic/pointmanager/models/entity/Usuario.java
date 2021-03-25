@@ -21,7 +21,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table( name = "usuario" , schema = "usuario")
+@Table( name = "usuario" , schema = "administrativo")
 public class Usuario {
 	
 	@Id
@@ -52,16 +52,19 @@ public class Usuario {
 	@Column(name = "office", nullable = false)
     private String office;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "setor", nullable = false)
-	private TipoSetorEnum setor;
-    
 	@Column(name = "local_office", nullable = false)
     private String localOffice;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "tipo_nivel_acesso", nullable = false)
-	private TipoNivelAcessoEnum tipoNivelAcessoEnum;
+	@Column(name = "setor", nullable = false)
+	private TipoSetorEnum setor;
+	
+	@Column(name = "ocupacao", nullable = false)
+    private String ocupacao;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "nivel_acesso", nullable = false)
+	private TipoNivelAcessoEnum nivelAcesso;
     
 	@Column(name = "photo_profile_uri")
     private Blob photoProfileUri;

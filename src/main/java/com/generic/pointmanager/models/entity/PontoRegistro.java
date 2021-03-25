@@ -17,7 +17,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table( name = "pontoregistro", schema = "registro")
+@Table( name = "pontoregistro", schema = "administrativo")
 public class PontoRegistro {
 	
 	@Id
