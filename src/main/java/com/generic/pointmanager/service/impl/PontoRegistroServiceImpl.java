@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.generic.pointmanager.exception.impl.ValidarDataExceptionImpl;
+import com.generic.pointmanager.exception.ValidarDataException;
 import com.generic.pointmanager.models.entity.PontoRegistro;
 import com.generic.pointmanager.models.entity.Usuario;
 import com.generic.pointmanager.models.repository.PontoRegistroRepository;
@@ -25,10 +25,7 @@ import com.generic.pointmanager.ws.GerenciadorRepositoryService;
 @Service
 @RequestMapping("/pontoregistro")
 public class PontoRegistroServiceImpl implements PontoRegistroService{
-	
-	@Autowired
-	private ValidarDataExceptionImpl validarDataExceptionImpl;
-	
+		
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
@@ -47,7 +44,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		
 		Calendar data = Calendar.getInstance();
 		
-		validarDataExceptionImpl.validarDataHora(data);
+		ValidarDataException.validarDataHora(data);
 		
 		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
 		
@@ -55,9 +52,9 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		
 		Date horaPontoRegistro = pontoRegistros.get(pontoRegistros.size()-1).getHoraPonto();
 		
-		validarDataExceptionImpl.validarCronometro(data, horaPontoRegistro);
+		ValidarDataException.validarCronometro(data, horaPontoRegistro);
 		
-		validarDataExceptionImpl.validarPontoDataHora(new PontoRegistro(), pontoRegistros, pontoRegistros.size());
+		ValidarDataException.validarPontoDataHora(new PontoRegistro(), pontoRegistros, pontoRegistros.size());
 
 		PontoRegistro pontoRegistro = new PontoRegistro();
 		
@@ -85,7 +82,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 	@GetMapping("/procurarEspecifico/{id}/{dataInicial}&{dataFinal}")
 	public ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(@PathVariable("id") Long id,@PathVariable Date dataInicial, @PathVariable Date dataFinal) {
 		
-		validarDataExceptionImpl.filtroData(dataInicial, dataFinal);
+		ValidarDataException.filtroData(dataInicial, dataFinal);
 		
 		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
 		
@@ -102,7 +99,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		pontoRegistroAtualizar = 
 				pontoRegistroRepository.buscarPorUsuarioIdAndPontoRegistroId(idUsuario, pontoRegistro.getId());
 		
-		validarDataExceptionImpl.validarPontoDataHora(pontoRegistroAtualizar, null, null);
+		ValidarDataException.validarPontoDataHora(pontoRegistroAtualizar, null, null);
 		
 		pontoRegistroAtualizar.setDataPonto(pontoRegistro.getDataPonto());
 		pontoRegistroAtualizar.setHoraPonto(pontoRegistro.getHoraPonto());

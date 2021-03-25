@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.generic.pointmanager.exception.ValidarAutenticacaoException;
-import com.generic.pointmanager.exception.impl.ValidarCpfExceptionImpl;
+import com.generic.pointmanager.exception.ValidarCpfException;
 import com.generic.pointmanager.models.entity.Usuario;
+import com.generic.pointmanager.models.repository.UsuarioRepository;
 import com.generic.pointmanager.service.UsuarioService;
 import com.generic.pointmanager.ws.GerenciadorRepositoryService;
 
@@ -21,17 +22,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private GerenciadorRepositoryService gerenciadorRepositoryService;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	private ValidarCpfExceptionImpl validarEmailExceptionImp;	
-	
+	private PasswordEncoder passwordEncoder;
 	
 	@PostMapping("/autenticar")
 	@Override
 	public UserDetails autenticar(Usuario usuario) {
 		
-		validarEmailExceptionImp.validarCPF(usuario.getCpf(), "find");
+		ValidarCpfException.validarCPF(
+	    		usuarioRepository.existsByCpf(usuario.getCpf()), "find");
 		
 		UserDetails userDetails = gerenciadorRepositoryService.autenticar(usuario);
 		
