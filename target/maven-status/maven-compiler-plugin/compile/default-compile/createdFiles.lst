@@ -1,6 +1,0 @@
-com\citcolab\staffmanager\exception\validarAutenticacaoException.class
-com\citcolab\staffmanager\models\entity\PontoRegistro.class
-com\citcolab\staffmanager\service\PontoRegistroService.class
-com\citcolab\staffmanager\models\entity\Usuario.class
-com\citcolab\staffmanager\models\repository\PontoRegistroRepository.class
-com\citcolab\staffmanager\exception\impl\validarDataExceptionImpl.class
