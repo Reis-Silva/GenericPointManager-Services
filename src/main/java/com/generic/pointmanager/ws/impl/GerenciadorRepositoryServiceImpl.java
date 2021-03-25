@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.generic.pointmanager.exception.ValidarEmailException;
 import com.generic.pointmanager.models.entity.PontoRegistro;
 import com.generic.pointmanager.models.entity.Usuario;
 import com.generic.pointmanager.models.repository.PontoRegistroRepository;
@@ -37,8 +36,7 @@ public class GerenciadorRepositoryServiceImpl implements GerenciadorRepositorySe
 
 	@Override
 	public UserDetails autenticar(Usuario usuario) {
-		Usuario user = usuarioRepository.findByEmail(
-							usuario.getEmail()).orElseThrow(() -> new ValidarEmailException("Email não encontrado"));
+		Usuario user = usuarioRepository.findByCpf(usuario.getCpf());
 		
 		return User
 				.builder()
