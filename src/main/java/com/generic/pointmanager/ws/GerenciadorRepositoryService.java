@@ -13,6 +13,6 @@ public interface GerenciadorRepositoryService {
 	
 	UserDetails autenticar(Usuario usuario);
 	
-	public void persistirRegistroRepository(PontoRegistro pontoRegistro);
+	public void persistirRegistro(PontoRegistro pontoRegistro);
 	
 }

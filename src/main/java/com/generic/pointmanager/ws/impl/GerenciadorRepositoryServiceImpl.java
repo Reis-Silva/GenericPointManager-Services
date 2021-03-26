@@ -47,7 +47,7 @@ public class GerenciadorRepositoryServiceImpl implements GerenciadorRepositorySe
 	
 	@Override
 	@Transactional
-	public void persistirRegistroRepository(PontoRegistro pontoRegistro) {
+	public void persistirRegistro(PontoRegistro pontoRegistro) {
 		pontoRegistroRepository.save(pontoRegistro);
 	}
 

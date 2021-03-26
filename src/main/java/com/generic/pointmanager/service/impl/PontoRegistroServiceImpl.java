@@ -36,6 +36,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 	private GerenciadorRepositoryService gerenciadorRepositoryService;
 	
 	@GetMapping("/registrar/{id}")
+	@Override
 	public ResponseEntity registrarPonto(@PathVariable Long id) {
 		
 		if(!usuarioRepository.existsById(id)) {
@@ -64,12 +65,13 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		pontoRegistro.setUsuario(new Usuario());
 		pontoRegistro.getUsuario().setId(id);
 		
-		gerenciadorRepositoryService.persistirRegistroRepository(pontoRegistro);
+		gerenciadorRepositoryService.persistirRegistro(pontoRegistro);
 		
 		return ResponseEntity.ok(pontoRegistro);
 	}
 	
 	@GetMapping("/procurar/{id}")
+	@Override
 	public ResponseEntity<List<PontoRegistro>> procurarPonto(@PathVariable("id") Long id) {
 		
 		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
@@ -80,6 +82,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 	}
 	
 	@GetMapping("/procurarEspecifico/{id}/{dataInicial}&{dataFinal}")
+	@Override
 	public ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(@PathVariable("id") Long id,@PathVariable Date dataInicial, @PathVariable Date dataFinal) {
 		
 		ValidarDataException.filtroData(dataInicial, dataFinal);
@@ -104,7 +107,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		pontoRegistroAtualizar.setDataPonto(pontoRegistro.getDataPonto());
 		pontoRegistroAtualizar.setHoraPonto(pontoRegistro.getHoraPonto());
 		
-		gerenciadorRepositoryService.persistirRegistroRepository(pontoRegistroAtualizar);
+		gerenciadorRepositoryService.persistirRegistro(pontoRegistroAtualizar);
 
 		return ResponseEntity.ok(pontoRegistroAtualizar);
 	}
