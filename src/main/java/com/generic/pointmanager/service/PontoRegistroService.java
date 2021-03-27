@@ -14,7 +14,8 @@ public interface PontoRegistroService {
 	
 	ResponseEntity<List<PontoRegistro>> procurarPonto(@PathVariable("id") Long id);
 	
-	ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(@PathVariable("id") Long id,@PathVariable Date dataInicial, @PathVariable Date dataFinal);
+	ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(
+			@PathVariable("id") Long id, @PathVariable Date dataInicial, @PathVariable Date dataFinal);
 	
 		
 }

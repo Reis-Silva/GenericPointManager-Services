@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.generic.pointmanager.exception.ValidarDataException;
@@ -83,7 +81,8 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 	
 	@GetMapping("/procurarEspecifico/{id}/{dataInicial}&{dataFinal}")
 	@Override
-	public ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(@PathVariable("id") Long id,@PathVariable Date dataInicial, @PathVariable Date dataFinal) {
+	public ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(
+			@PathVariable("id") Long id,@PathVariable Date dataInicial, @PathVariable Date dataFinal) {
 		
 		ValidarDataException.filtroData(dataInicial, dataFinal);
 		
@@ -93,23 +92,5 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		
 		return ResponseEntity.ok(pontoRegistros);
 	}
-	
-	@PostMapping("/atualizar/{idUsuario}")
-	public ResponseEntity atualizarPonto(@PathVariable("idUsuario") Long idUsuario, @RequestBody PontoRegistro pontoRegistro) {
 		
-		PontoRegistro pontoRegistroAtualizar = new PontoRegistro();
-		
-		pontoRegistroAtualizar = 
-				pontoRegistroRepository.buscarPorUsuarioIdAndPontoRegistroId(idUsuario, pontoRegistro.getId());
-		
-		ValidarDataException.validarPontoDataHora(pontoRegistroAtualizar, null, null);
-		
-		pontoRegistroAtualizar.setDataPonto(pontoRegistro.getDataPonto());
-		pontoRegistroAtualizar.setHoraPonto(pontoRegistro.getHoraPonto());
-		
-		gerenciadorRepositoryService.persistirRegistro(pontoRegistroAtualizar);
-
-		return ResponseEntity.ok(pontoRegistroAtualizar);
-	}
-	
 }
