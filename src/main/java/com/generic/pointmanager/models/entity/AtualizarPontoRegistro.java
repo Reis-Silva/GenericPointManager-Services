@@ -1,5 +1,7 @@
 package com.generic.pointmanager.models.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.generic.pointmanager.enumeration.StatusAtualizacaoPonto;
 import com.generic.pointmanager.enumeration.StatusSolicitacaoAtualizacaoPonto;
@@ -28,6 +32,18 @@ public class AtualizarPontoRegistro{
 	
 	@Column(name = "justicativa_atualizacao_ponto", nullable = false)
 	private String justificativaAtualizacaoPonto;
+	
+	@Temporal(TemporalType.TIME)
+	@Column(name = "hora_ponto_atualizacao", nullable = false)
+	private Date horaPontoPosterior;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_solicitacao", nullable = false)
+	private Date dataSolicitacao;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_resposta", nullable = false)
+	private Date dataResposta;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "solicitacao_atualizacao_ponto", nullable = false)
