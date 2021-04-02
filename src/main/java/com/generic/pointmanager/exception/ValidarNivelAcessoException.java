@@ -15,10 +15,14 @@ public class ValidarNivelAcessoException extends RuntimeException{
 		
 	}
 	
-	public static void validarNivelAcesso(String nivelAcesso) {
+	public static void validarNivelAcesso(String nivelAcessoAdmin, String nivelAcessoUsuario) {
 	
-		if(nivelAcesso.equalsIgnoreCase("BAIXO")){
-			throw new ValidarNivelAcessoException("Nivel de autorização baixo para este serviço");
+		if(nivelAcessoAdmin.equalsIgnoreCase("BAIXO")){
+			throw new ValidarNivelAcessoException("Requer nivel de autorização MEDIO para este serviço");
+		}
+		
+		if(nivelAcessoAdmin.equalsIgnoreCase("MEDIO") && nivelAcessoUsuario.equalsIgnoreCase("MEDIO")){
+			throw new ValidarNivelAcessoException("Requer nivel de autorização ALTO para este serviço");
 		}
 		
 	}
