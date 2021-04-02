@@ -17,11 +17,11 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table( name = "pontoregistro", schema = "administrativo")
+@Table( name = "ponto_registro", schema = "administrativo")
 public class PontoRegistro {
 	
 	@Id
-	@Column(name = "id", nullable = false)
+	@Column(name = "id_ponto_registro", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
@@ -35,6 +35,9 @@ public class PontoRegistro {
 	@Temporal(TemporalType.TIME)
 	@Column(name = "hora_Ponto", nullable = false)
 	private Date horaPonto;
+	
+	@Column(name = "hora_Ponto", nullable = false)
+	private int numeroPonto;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_usuario", nullable = false)

@@ -1,5 +1,6 @@
 package com.generic.pointmanager.models.entity;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,11 +28,8 @@ public class AtualizarPontoRegistro{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
+	@Column(name = "id_atualizar_ponto_registro", nullable = false)
 	private Long id;
-	
-	@Column(name = "justicativa_atualizacao_ponto", nullable = false)
-	private String justificativaAtualizacaoPonto;
 	
 	@Temporal(TemporalType.TIME)
 	@Column(name = "hora_ponto_atualizacao", nullable = false)
@@ -45,12 +43,15 @@ public class AtualizarPontoRegistro{
 	@Column(name = "data_resposta", nullable = false)
 	private Date dataResposta;
 	
+	@Column(name = "numero_registro")
+	private BigInteger numeroRegistro;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "solicitacao_atualizacao_ponto", nullable = false)
 	private StatusSolicitacaoAtualizacaoPonto statusSolicitacaoAtualizacaoPonto;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "atualizacao_ponto", nullable = false)
+	@Column(name = "status_atualizacao_ponto", nullable = false)
 	private StatusAtualizacaoPonto statusAtualizacaoPonto;
 	
 	@OneToOne
