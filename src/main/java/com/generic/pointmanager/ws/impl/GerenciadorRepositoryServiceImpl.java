@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.generic.pointmanager.models.entity.AtualizarPontoRegistro;
 import com.generic.pointmanager.models.entity.PontoRegistro;
+import com.generic.pointmanager.models.entity.Registro;
 import com.generic.pointmanager.models.entity.Usuario;
 import com.generic.pointmanager.models.repository.AtualizarPontoRegistroRepository;
 import com.generic.pointmanager.models.repository.PontoRegistroRepository;
+import com.generic.pointmanager.models.repository.RegistroRepository;
 import com.generic.pointmanager.models.repository.UsuarioRepository;
 import com.generic.pointmanager.ws.GerenciadorRepositoryService;
 
@@ -26,6 +28,8 @@ public class GerenciadorRepositoryServiceImpl implements GerenciadorRepositorySe
 	
 	@Autowired
 	private AtualizarPontoRegistroRepository atualizarPontoRegistroRepository;
+	
+	private RegistroRepository registroRepository;
 	
 	@Override
 	@Transactional
@@ -52,14 +56,20 @@ public class GerenciadorRepositoryServiceImpl implements GerenciadorRepositorySe
 	
 	@Override
 	@Transactional
-	public void persistirRegistro(PontoRegistro pontoRegistro) {
+	public void persistirPontoRegistro(PontoRegistro pontoRegistro) {
 		pontoRegistroRepository.save(pontoRegistro);
 	}
 
 	@Override
 	@Transactional
-	public void persistirAtualizarRegistro(AtualizarPontoRegistro atualizarPontoRegistro) {
+	public void persistirAtualizarPontoRegistro(AtualizarPontoRegistro atualizarPontoRegistro) {
 		atualizarPontoRegistroRepository.save(atualizarPontoRegistro);
+	}
+
+	@Override
+	@Transactional
+	public void persitirRegistro(Registro registro) {
+		registroRepository.save(registro);
 	}
 
 }
