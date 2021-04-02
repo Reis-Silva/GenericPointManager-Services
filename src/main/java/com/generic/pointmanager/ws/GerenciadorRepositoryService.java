@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.generic.pointmanager.models.entity.AtualizarPontoRegistro;
 import com.generic.pointmanager.models.entity.PontoRegistro;
+import com.generic.pointmanager.models.entity.Registro;
 import com.generic.pointmanager.models.entity.Usuario;
 
 public interface GerenciadorRepositoryService {
@@ -14,8 +15,10 @@ public interface GerenciadorRepositoryService {
 	
 	UserDetails autenticar(Usuario usuario);
 	
-	public void persistirRegistro(PontoRegistro pontoRegistro);
+	void persistirPontoRegistro(PontoRegistro pontoRegistro);
 	
-	public void persistirAtualizarRegistro(AtualizarPontoRegistro atualizarPontoRegistro);
+	void persistirAtualizarPontoRegistro(AtualizarPontoRegistro atualizarPontoRegistro);
+	
+	void persitirRegistro(Registro registro);
 	
 }
