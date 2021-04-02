@@ -33,12 +33,12 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 	@Autowired
 	private GerenciadorRepositoryService gerenciadorRepositoryService;
 	
-	@GetMapping("/registrar/{id}")
+	@GetMapping("/registrar/{idUsuario}")
 	@Override
-	public ResponseEntity registrarPonto(@PathVariable Long id) {
+	public ResponseEntity registrarPonto(@PathVariable("idUsuario") Long idUsuario) {
 		
-		if(!usuarioRepository.existsById(id)) {
-			throw new RuntimeException("Usuario não existente");
+		if(!usuarioRepository.existsById(idUsuario)) {
+			throw new RuntimeException("Usuario não existe");
 		}
 		
 		Calendar data = Calendar.getInstance();
@@ -47,48 +47,74 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		
 		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
 		
-		pontoRegistros.addAll(pontoRegistroRepository.buscarPorDataHoraPonto(data.getTime()));
+		pontoRegistros.addAll(pontoRegistroRepository.buscarPorDataHoraPonto(data.getTime(), idUsuario));
 		
-		Date horaPontoRegistro = pontoRegistros.get(pontoRegistros.size()-1).getHoraPonto();
+		if(pontoRegistros.size() > 0) {
+			
+			Date horaPontoRegistro = pontoRegistros.get(pontoRegistros.size()-1).getHoraPonto();
+			
+			ValidarDataException.validarCronometro(data, horaPontoRegistro);
+			
+			ValidarDataException.validarPontoDataHora(new PontoRegistro(), pontoRegistros, pontoRegistros.size());
+		}
 		
-		ValidarDataException.validarCronometro(data, horaPontoRegistro);
-		
-		ValidarDataException.validarPontoDataHora(new PontoRegistro(), pontoRegistros, pontoRegistros.size());
-
 		PontoRegistro pontoRegistro = new PontoRegistro();
 		
 		pontoRegistro.setDataPonto(data.getTime());
 		pontoRegistro.setHoraPonto(data.getTime());
 		pontoRegistro.setLocalPonto("fajuta");
+		pontoRegistro.setNumeroPonto(pontoRegistros.size() + 1);
 		pontoRegistro.setUsuario(new Usuario());
-		pontoRegistro.getUsuario().setId(id);
+		pontoRegistro.getUsuario().setId(idUsuario);
 		
-		gerenciadorRepositoryService.persistirRegistro(pontoRegistro);
+		gerenciadorRepositoryService.persistirPontoRegistro(pontoRegistro);
 		
 		return ResponseEntity.ok(pontoRegistro);
 	}
 	
-	@GetMapping("/procurar/{id}")
+	@SuppressWarnings("unused")
+	@GetMapping("/procurarpontosdiarios/{idUsuario}")
 	@Override
-	public ResponseEntity<List<PontoRegistro>> procurarPonto(@PathVariable("id") Long id) {
+	public ResponseEntity<List<PontoRegistro>> procurarPontoDia(@PathVariable("idUsuario") Long idUsuario) {
+		
+		if(!usuarioRepository.existsById(idUsuario)) {
+			throw new RuntimeException("Usuario não existe");
+		}
 		
 		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
 		
-		pontoRegistros.addAll(pontoRegistroRepository.buscarPorUsuarioId(id));
+		Calendar data = Calendar.getInstance();
+		
+		pontoRegistros.addAll(pontoRegistroRepository.buscarPorDataHoraPonto(data.getTime(), idUsuario));
+		
+		if(pontoRegistros != null) {
+			return ResponseEntity.ok(pontoRegistros);
+		}else{
+			return (ResponseEntity<List<PontoRegistro>>) ResponseEntity.notFound();
+		}
+	}
+	
+	@GetMapping("/procurar/{idUsuario}")
+	@Override
+	public ResponseEntity<List<PontoRegistro>> procurarPonto(@PathVariable("idUsuario") Long idUsuario) {
+		
+		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
+		
+		pontoRegistros.addAll(pontoRegistroRepository.buscarPorUsuarioId(idUsuario));
 		
 		return ResponseEntity.ok(pontoRegistros);
 	}
 	
-	@GetMapping("/procurarEspecifico/{id}/{dataInicial}&{dataFinal}")
+	@GetMapping("/procurarespecifico/{idUsuario}")
 	@Override
 	public ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(
-			@PathVariable("id") Long id,@PathVariable Date dataInicial, @PathVariable Date dataFinal) {
+			@PathVariable("idUsuario") Long idUsuario, Date dataInicial, Date dataFinal) {
 		
 		ValidarDataException.filtroData(dataInicial, dataFinal);
 		
 		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
 		
-		pontoRegistros.addAll(pontoRegistroRepository.buscarPorUsuarioIdEspecifico(id, dataInicial, dataFinal));
+		pontoRegistros.addAll(pontoRegistroRepository.buscarPorUsuarioIdEspecifico(idUsuario, dataInicial, dataFinal));
 		
 		return ResponseEntity.ok(pontoRegistros);
 	}

@@ -8,10 +8,10 @@ import com.generic.pointmanager.models.entity.Usuario;
 
 public interface AdministradorService {
 	
-	ResponseEntity cadastrarUsuario(@RequestBody Usuario usuario, @PathVariable("email") String IdAdmin);
+	ResponseEntity cadastrarUsuario(@RequestBody Usuario usuario, @PathVariable("email") Long IdAdmin);
 	
-	ResponseEntity atualizarUsuario(@RequestBody Usuario usuario, @PathVariable("email") String IdAdmin);
+	ResponseEntity atualizarUsuario(@RequestBody Usuario usuario, @PathVariable("email") Long IdAdmin);
 	
-	ResponseEntity deletarUsuario(@PathVariable("email") String email, @PathVariable("idAdmin") String idAdmin);
+	ResponseEntity deletarUsuario(@PathVariable("cpf") String cpf, @PathVariable("idAdmin") Long idAdmin);
 
 }

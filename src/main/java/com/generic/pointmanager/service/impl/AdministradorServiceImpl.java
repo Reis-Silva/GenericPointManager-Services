@@ -37,13 +37,13 @@ public class AdministradorServiceImpl implements AdministradorService{
 	
 	@PostMapping("/cadastrar/{idAdmin}")
 	@Override
-	public ResponseEntity cadastrarUsuario(@RequestBody Usuario usuario, @PathVariable("idAdmin") String idAdmin) {
+	public ResponseEntity cadastrarUsuario(@RequestBody Usuario usuario, @PathVariable("idAdmin") Long idAdmin) {
 		
 	    ValidarCpfException.validarCPF(
 	    		usuarioRepository.existsByCpf(usuario.getCpf()), "save");
 	    
 	    ValidarNivelAcessoException.validarNivelAcesso(
-	    		usuarioRepository.findByCpf(idAdmin).getNivelAcesso().getDescricao());
+	    		usuarioRepository.findById(idAdmin).get().getNivelAcesso().getDescricao(), usuario.getNivelAcesso().getDescricao());
 		
 		Random random = new Random();
 		Long numero = (long) random.nextInt(1000);
@@ -56,17 +56,20 @@ public class AdministradorServiceImpl implements AdministradorService{
 		
 		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		
-		//gerenciadorRepositoryService.persistirUsuario(usuario);
+		gerenciadorRepositoryService.persistirUsuario(usuario);
 		
 		return ResponseEntity.ok(usuario);
 	}
 	
 	@PostMapping("/atualizar/{idAdmin}")
 	@Override
-	public ResponseEntity atualizarUsuario(@RequestBody Usuario usuario, @PathVariable("idAdmin") String idAdmin){
+	public ResponseEntity atualizarUsuario(@RequestBody Usuario usuario, @PathVariable("idAdmin") Long idAdmin){
 		
 		ValidarCpfException.validarCPF(
 	    		usuarioRepository.existsByCpf(usuario.getCpf()), "find");
+		
+		ValidarNivelAcessoException.validarNivelAcesso(
+	    		usuarioRepository.findById(idAdmin).get().getNivelAcesso().getDescricao(), usuario.getNivelAcesso().getDescricao());
 		
 		Usuario atualizarUsuario = usuarioRepository.findByCpf(usuario.getCpf());
 		atualizarUsuario.setEmail(usuario.getEmail());
@@ -83,13 +86,16 @@ public class AdministradorServiceImpl implements AdministradorService{
 	
 	@DeleteMapping("/deletar//{idAdmin}/{cpf}")
 	@Override
-	public ResponseEntity deletarUsuario(@PathVariable("cpf") String cpf, @PathVariable("idAdmin") String idAdmin){
+	public ResponseEntity deletarUsuario(@PathVariable("cpf") String cpf, @PathVariable("idAdmin") Long idAdmin){
 		
 		ValidarCpfException.validarCPF(
 	    		usuarioRepository.existsByCpf(cpf), "find");
 		
 		Usuario deletarUsuario = usuarioRepository.findByCpf(cpf);
 		
+		ValidarNivelAcessoException.validarNivelAcesso(
+	    		usuarioRepository.findById(idAdmin).get().getNivelAcesso().getDescricao(), deletarUsuario.getNivelAcesso().getDescricao());
+			
 		gerenciadorRepositoryService.deletarUsuario(deletarUsuario);
 		
 		return ResponseEntity.noContent().build();

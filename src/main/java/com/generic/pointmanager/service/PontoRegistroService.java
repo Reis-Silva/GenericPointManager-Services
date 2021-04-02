@@ -10,12 +10,13 @@ import com.generic.pointmanager.models.entity.PontoRegistro;
 
 public interface PontoRegistroService {
 	
-	ResponseEntity registrarPonto(@PathVariable Long id);
+	ResponseEntity registrarPonto(Long id);
 	
-	ResponseEntity<List<PontoRegistro>> procurarPonto(@PathVariable("id") Long id);
+	ResponseEntity<List<PontoRegistro>> procurarPonto(Long id);
 	
-	ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(
-			@PathVariable("id") Long id, @PathVariable Date dataInicial, @PathVariable Date dataFinal);
+	ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(Long id, Date dataInicial, Date dataFinal);
+
+	ResponseEntity<List<PontoRegistro>> procurarPontoDia(Long idUsuario);
 	
 		
 }
