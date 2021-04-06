@@ -4,8 +4,9 @@ import com.generic.pointmanager.enumeration.api.IEnumModel;
 
 public enum StatusAtualizacaoPonto implements IEnumModel{
 	
-	APROVADO(0, "APROVADO"),
-	RECUSADO(1, "RECUSADO");
+	PENDENTE(0,"PENDENTE"),
+	APROVADO(1, "APROVADA"),
+	RECUSADO(2, "RECUSADA");
 	
 	private String descricao;
 	
