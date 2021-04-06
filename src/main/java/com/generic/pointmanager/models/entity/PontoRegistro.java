@@ -36,7 +36,7 @@ public class PontoRegistro {
 	@Column(name = "hora_Ponto", nullable = false)
 	private Date horaPonto;
 	
-	@Column(name = "hora_Ponto", nullable = false)
+	@Column(name = "numero_Ponto", nullable = false)
 	private int numeroPonto;
 	
 	@ManyToOne

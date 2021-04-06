@@ -35,17 +35,6 @@ public class AtualizarPontoRegistro{
 	@Column(name = "hora_ponto_atualizacao", nullable = false)
 	private Date horaPontoPosterior;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_solicitacao", nullable = false)
-	private Date dataSolicitacao;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_resposta", nullable = false)
-	private Date dataResposta;
-	
-	@Column(name = "numero_registro")
-	private BigInteger numeroRegistro;
-	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "solicitacao_atualizacao_ponto", nullable = false)
 	private StatusSolicitacaoAtualizacaoPonto statusSolicitacaoAtualizacaoPonto;
@@ -54,8 +43,11 @@ public class AtualizarPontoRegistro{
 	@Column(name = "status_atualizacao_ponto", nullable = false)
 	private StatusAtualizacaoPonto statusAtualizacaoPonto;
 	
+	@Column(name = "numero_registro", nullable = false)
+	private BigInteger numeroRegistro;
+	
 	@OneToOne
 	@JoinColumn(name = "id_ponto_registro", nullable = false)
 	private PontoRegistro idPontoRegistro;
-
+	
 }
