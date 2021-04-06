@@ -29,6 +29,7 @@ public class GerenciadorRepositoryServiceImpl implements GerenciadorRepositorySe
 	@Autowired
 	private AtualizarPontoRegistroRepository atualizarPontoRegistroRepository;
 	
+	@Autowired
 	private RegistroRepository registroRepository;
 	
 	@Override

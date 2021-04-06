@@ -1,23 +1,21 @@
 package com.generic.pointmanager.service;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 
 import com.generic.pointmanager.models.entity.AtualizarPontoRegistro;
-import com.generic.pointmanager.models.entity.PontoRegistro;
-import com.generic.pointmanager.models.entity.Registro;
+import com.generic.pointmanager.ws.impl.GetCollection;
 
 public interface AtualizarPontoRegistroService {
 
-	ResponseEntity solicitarAtualizarPonto(List<AtualizarPontoRegistro> atualizarPontoRegistro, 
-			List<PontoRegistro> pontoRegistro,Registro registro);
+	ResponseEntity solicitarAtualizarPonto(GetCollection collection);
 	
 	ResponseEntity listaAtualizarPonto(Long idAdmin);
 	
-	ResponseEntity listaAtualizarPontoEspecifico(String cpf, Long idAdmin);
+	ResponseEntity listaAtualizarPontoEspecifico(Long idAdmin, String cpf);
 	
-	ResponseEntity atualizarPonto(Long idAtualizarPontoRegistro, Long idAdmin,
+	ResponseEntity atualizarPonto(Long idAdmin, Long idAtualizarPontoRegistro,
 			AtualizarPontoRegistro atualizarPontoRegistro);
+
+	ResponseEntity listaVisaoPontosDiariosConjuntoAtualizar(Long idAdmin, Long idAtualizarPontoRegistro);
 
 }
