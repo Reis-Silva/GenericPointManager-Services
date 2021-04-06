@@ -1,16 +1,21 @@
 package com.generic.pointmanager.service.impl;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.QueryParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.generic.pointmanager.exception.ValidarDataException;
 import com.generic.pointmanager.models.entity.PontoRegistro;
@@ -21,6 +26,7 @@ import com.generic.pointmanager.service.PontoRegistroService;
 import com.generic.pointmanager.ws.GerenciadorRepositoryService;
 
 @Service
+@RestController
 @RequestMapping("/pontoregistro")
 public class PontoRegistroServiceImpl implements PontoRegistroService{
 		
@@ -96,7 +102,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 	
 	@GetMapping("/procurar/{idUsuario}")
 	@Override
-	public ResponseEntity<List<PontoRegistro>> procurarPonto(@PathVariable("idUsuario") Long idUsuario) {
+	public ResponseEntity<List<PontoRegistro>> procurarPonto(@PathVariable("idUsuario") BigInteger idUsuario) {
 		
 		List<PontoRegistro> pontoRegistros = new ArrayList<PontoRegistro>();
 		
@@ -108,7 +114,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 	@GetMapping("/procurarespecifico/{idUsuario}")
 	@Override
 	public ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(
-			@PathVariable("idUsuario") Long idUsuario, Date dataInicial, Date dataFinal) {
+			@PathVariable("idUsuario") Long idUsuario, @QueryParam("dataInicial") @DateTimeFormat(pattern="yyyy-MM-dd") Date dataInicial, @QueryParam("dataFinal") @DateTimeFormat(pattern="yyyy-MM-dd") Date dataFinal) {
 		
 		ValidarDataException.filtroData(dataInicial, dataFinal);
 		

@@ -5,7 +5,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ import com.generic.pointmanager.models.repository.UsuarioRepository;
 import com.generic.pointmanager.service.AdministradorService;
 import com.generic.pointmanager.ws.GerenciadorRepositoryService;
 
-@Component
+@Service
 @RestController
 @RequestMapping("/administrador")
 public class AdministradorServiceImpl implements AdministradorService{
