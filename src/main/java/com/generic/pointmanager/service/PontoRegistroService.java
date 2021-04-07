@@ -17,5 +17,4 @@ public interface PontoRegistroService {
 	ResponseEntity<List<PontoRegistro>> procurarPontoEspecifico(Long idUsuario, Date dataInicial, Date dataFinal);
 
 	ResponseEntity<List<PontoRegistro>> procurarPontoDia(Long idUsuario);
-		
 }

@@ -59,9 +59,9 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 			
 			Date horaPontoRegistro = pontoRegistros.get(pontoRegistros.size()-1).getHoraPonto();
 			
-			ValidarDataException.validarCronometro(data, horaPontoRegistro);
-			
 			ValidarDataException.validarPontoDataHora(new PontoRegistro(), pontoRegistros, pontoRegistros.size());
+			
+			ValidarDataException.validarCronometro(data, horaPontoRegistro);
 		}
 		
 		PontoRegistro pontoRegistro = new PontoRegistro();
@@ -78,7 +78,7 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		return ResponseEntity.ok(pontoRegistro);
 	}
 	
-	@SuppressWarnings("unused")
+	
 	@GetMapping("/procurarpontosdiarios/{idUsuario}")
 	@Override
 	public ResponseEntity<List<PontoRegistro>> procurarPontoDia(@PathVariable("idUsuario") Long idUsuario) {
@@ -93,11 +93,8 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		
 		pontoRegistros.addAll(pontoRegistroRepository.buscarPorDataHoraPonto(data.getTime(), idUsuario));
 		
-		if(pontoRegistros != null) {
-			return ResponseEntity.ok(pontoRegistros);
-		}else{
-			return (ResponseEntity<List<PontoRegistro>>) ResponseEntity.notFound();
-		}
+		return ResponseEntity.ok(pontoRegistros);
+		
 	}
 	
 	@GetMapping("/procurar/{idUsuario}")

@@ -67,8 +67,15 @@ public class AtualizarPontoRegistroServiceImpl implements AtualizarPontoRegistro
 	@PostMapping("/solicitar")
 	@Override
 	public ResponseEntity solicitarAtualizarPonto(@RequestBody GetCollection collection) {
-			
-		ValidarPontoRegistroException.validarPontoRegistroNumero(collection.getCollection().getPontoRegistro(), collection.getCollection().getAtualizarPontoRegistro());
+		
+		for(int index=0; index < collection.getCollection().getPontoRegistro().length; index++) {
+			ValidarPontoRegistroException.validarPontoAtualizacaoPendente(
+					atualizarPontoRegistroRepository.buscarAtualizarListaUsuarioPontoRegistroPendente(
+							collection.getCollection().getPontoRegistro()[index].getId()));
+		}
+		
+		ValidarPontoRegistroException.validarPontoRegistroNumero(
+				collection.getCollection().getPontoRegistro(), collection.getCollection().getAtualizarPontoRegistro());
 		
 		BigInteger numeroRegistro = registroRepository.maiorNumeroRegistro();
 		
