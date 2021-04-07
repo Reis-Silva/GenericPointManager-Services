@@ -1,5 +1,7 @@
 package com.generic.pointmanager.exception;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.generic.pointmanager.models.entity.AtualizarPontoRegistro;
@@ -41,9 +43,14 @@ public class ValidarPontoRegistroException extends RuntimeException {
 					}
 				}
 			}
-
 		}
-
+	}
+	
+	public static void validarPontoAtualizacaoPendente(List<Object> listaPendencia) {
+		
+		if(!listaPendencia.isEmpty()) {
+			throw new ValidarPontoRegistroException("Ainda existe uma verificação pendente para este dia");
+		}
 	}
 
 }
