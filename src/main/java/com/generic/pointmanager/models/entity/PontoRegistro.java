@@ -13,13 +13,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.generic.pointmanager.json.JsonPontoRegistroSerializer;
+
 import lombok.Data;
 
+@JsonSerialize(using = JsonPontoRegistroSerializer.class)
 @Data
 @Entity
 @Table( name = "ponto_registro", schema = "administrativo")
 public class PontoRegistro {
-	
+
 	@Id
 	@Column(name = "id_ponto_registro", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

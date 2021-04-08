@@ -123,7 +123,7 @@ public class AtualizarPontoRegistroServiceImpl implements AtualizarPontoRegistro
 	
 	@GetMapping("/procurarespecificousuario/{idAdmin}/{cpf}")
 	@Override
-	public ResponseEntity listaAtualizarPontoEspecifico(@PathVariable("idAdmin") Long idAdmin, @PathVariable("cpf") String cpf) {
+	public ResponseEntity listaAtualizarPontoEspecificoUsuario(@PathVariable("idAdmin") Long idAdmin, @PathVariable("cpf") String cpf) {
 		
 		ValidarCpfException.validarCPF(usuarioRepository.existsByCpf(cpf), "find");
 		

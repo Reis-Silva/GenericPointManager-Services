@@ -11,7 +11,7 @@ public interface AtualizarPontoRegistroService {
 	
 	ResponseEntity listaAtualizarPonto(Long idAdmin);
 	
-	ResponseEntity listaAtualizarPontoEspecifico(Long idAdmin, String cpf);
+	ResponseEntity listaAtualizarPontoEspecificoUsuario(Long idAdmin, String cpf);
 	
 	ResponseEntity atualizarPonto(Long idAdmin, Long idAtualizarPontoRegistro,
 			AtualizarPontoRegistro atualizarPontoRegistro);
