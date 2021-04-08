@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.generic.pointmanager.exception.ValidarDataException;
+import com.generic.pointmanager.json.JsonPontoRegistroSerializer;
 import com.generic.pointmanager.models.entity.PontoRegistro;
 import com.generic.pointmanager.models.entity.Usuario;
 import com.generic.pointmanager.models.repository.PontoRegistroRepository;
@@ -75,7 +79,20 @@ public class PontoRegistroServiceImpl implements PontoRegistroService{
 		
 		gerenciadorRepositoryService.persistirPontoRegistro(pontoRegistro);
 		
-		return ResponseEntity.ok(pontoRegistro);
+		ObjectMapper mapper = new ObjectMapper();
+
+		SimpleModule module = new SimpleModule();
+		module.addSerializer(PontoRegistro.class, new JsonPontoRegistroSerializer());
+		mapper.registerModule(module);
+		String serialized = null;
+		try {
+			serialized = mapper.writeValueAsString(pontoRegistro);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return ResponseEntity.ok(serialized);
 	}
 	
 	
